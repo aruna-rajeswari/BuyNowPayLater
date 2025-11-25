@@ -39,6 +39,8 @@ problems = validate_data(df_transformed)
 print("Validation problems:", problems)
 save_data(df_transformed, "cleaned_bnpl_data.csv")
 
+```
+---
 ## Phase 2: SQL Analysis
 
 After cleaning, the CSV can be imported into a database for SQL queries:
