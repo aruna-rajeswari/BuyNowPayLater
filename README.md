@@ -15,7 +15,7 @@ A comprehensive data analysis project on **Buy Now, Pay Later (BNPL)** customer 
 
 ## 🗂 Project Phases
 
-### **Phase 0: Python Data Pipeline (ETL Setup)**
+### **Phase 1: Python Data Pipeline (ETL Setup)**
 
 Purpose: Build a modular pipeline to manage data flow from ingestion to cleaning, transformation, validation, and storage.
 
@@ -38,3 +38,56 @@ df_transformed = transform_data(df_clean)
 problems = validate_data(df_transformed)
 print("Validation problems:", problems)
 save_data(df_transformed, "cleaned_bnpl_data.csv")
+
+## Phase 2: SQL Analysis
+
+After cleaning, the CSV can be imported into a database for SQL queries:
+
+- Total purchases by customer
+- Missed payments by merchant
+- Average income vs. credit score
+- Most common product categories per location
+- Risk classification based on late payments
+
+---
+
+## Phase 3: Power BI Visualization
+
+Dashboards and visuals:
+
+- **KPIs:** Total Users, Active Users, Default Rate
+- **Bar Chart:** Revenue by Product Category
+- **Heatmap:** Risk by Region
+- **Line Chart:** Monthly Sales Volume
+- **Pie Chart:** Gender Distribution
+
+---
+
+## 📊 Dataset Details
+
+- **Rows:** 20,000
+- **Columns Include:**
+  - Transaction data: amount, date, merchant
+  - Customer info: age, gender, income, credit score
+  - Payment plan details: down payment, installments
+  - Behavioral indicators: late payments, fraud flag
+
+---
+
+## ⚙️ Tools & Technologies
+
+- Python (Pandas, NumPy)
+- SQL (for analysis)
+- Tableau / Power BI (for dashboards)
+- Jupyter Notebook / Python Modules
+
+---
+
+## ✅ Expected Outcomes
+
+- Identify high-risk BNPL customers.
+- Build a predictive framework to classify potential defaulters.
+- Enable actionable insights for financial decision-making.
+
+---
+---
