@@ -62,7 +62,9 @@ Dashboards and visuals:
 - **Heatmap:** Risk by Region
 - **Line Chart:** Monthly Sales Volume
 - **Pie Chart:** Gender Distribution
-
+- 
+PowerBI Dashboard:
+- <img width="1189" height="717" alt="image" src="https://github.com/user-attachments/assets/6698f818-3ff8-4b8c-b7ef-f8ea47c13bdd" />
 ---
 
 ## 📊 Dataset Details
