@@ -1,0 +1,77 @@
+import pandas as pd
+import numpy as np
+from pathlib import Path
+
+def extract_data(filepath):
+    """Load data from CSV file."""
+    return pd.read_csv(filepath)
+
+def clean_data(df):
+    df = df.drop_duplicates()
+
+    if 'transaction_date' in df.columns:
+        df['transaction_date'] = pd.to_datetime(df['transaction_date'], errors='coerce')
+    if 'account_created' in df.columns:
+        df['account_created'] = pd.to_datetime(df['account_created'], errors='coerce')
+
+    numeric_cols = ['age', 'purchase_amount', 'down_payment', 'installment_amount',
+                    'installments', 'customer_income', 'credit_score', 'late_payments', 'fraud_flag']
+    for c in numeric_cols:
+        if c in df.columns:
+            df[c] = pd.to_numeric(df[c], errors='coerce')
+
+    for col in ['age', 'customer_income', 'credit_score']:
+        if col in df.columns:
+    #        df[col] = df[col].fillna(df[col].median().round(0))
+            df[col] = df[col].fillna(round(df[col].median(), 0))
+
+    if 'gender' in df.columns:
+        df['gender'] = df['gender'].fillna('Unknown')
+
+    for c in ['purchase_amount', 'down_payment', 'installments', 'customer_income', 'installment_amount']:
+        if c in df.columns:
+            df.loc[df[c] < 0, c] = np.nan
+
+    return df
+
+def transform_data(df):
+    df = df.copy()
+    if 'purchase_amount' in df.columns and 'down_payment' in df.columns:
+        df['financial_amount'] = df['purchase_amount'] - df['down_payment']
+
+    if 'purchase_amount' in df.columns and 'installment_amount' in df.columns:
+        df['repayment_rate'] = (df['installment_amount'] / df['purchase_amount']).fillna(0)
+
+    if {'repayment_rate', 'late_payments', 'credit_score'}.issubset(df.columns):
+        df['high_risk'] = ((df['repayment_rate'] < 0.8) |
+                           (df['late_payments'] >= 2) |
+                           (df['credit_score'] < 550)).astype(int)
+
+    if {'financial_amount', 'installments'}.issubset(df.columns):
+        df['monthly_installment_est'] = df['financial_amount'] / df['installments']
+
+    return df
+
+def validate_data(df):
+    problems = []
+    if 'credit_score' in df.columns:
+        if not df['credit_score'].between(300, 850).all():
+            problems.append("Some credit scores are outside 300–850.")
+    if 'purchase_amount' in df.columns:
+        if (df['purchase_amount'] < 0).any():
+            problems.append("Negative purchase amounts found.")
+    return problems
+
+def save_data(df, filename="C:/Aruna/Fortrary/DA Workshop/python/bnpl/cleaned_bnpl_data.csv"):
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(filename, index=False)
+    return filename
+
+if __name__ == "__main__":
+    df = extract_data("C:/Aruna/Fortrary/DA Workshop/python/bnpl/bnpl_dataset_20000.csv")
+    dfc = clean_data(df)
+    dft = transform_data(dfc)
+    problems = validate_data(dft)
+    print("Validation problems:", problems)
+    save_data(dft, "C:/Aruna/Fortrary/DA Workshop/python/bnpl/cleaned_bnpl_data.csv")
+    print("Saved cleaned_bnpl_data.csv ")
