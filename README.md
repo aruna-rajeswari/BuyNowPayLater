@@ -66,15 +66,4 @@ Dashboards and visuals:
 PowerBI Dashboard:
 <img width="1189" height="717" alt="image" src="https://github.com/user-attachments/assets/6698f818-3ff8-4b8c-b7ef-f8ea47c13bdd" />
 ---
-
-## 📊 Dataset Details
-
-- **Rows:** 20,000
-- **Columns Include:**
-  - Transaction data: amount, date, merchant
-  - Customer info: age, gender, income, credit score
-  - Payment plan details: down payment, installments
-  - Behavioral indicators: late payments, fraud flag
-
----
 ---
