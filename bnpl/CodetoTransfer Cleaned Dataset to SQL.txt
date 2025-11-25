@@ -1,0 +1,22 @@
+pip install pymysql
+
+from sqlalchemy import create_engine
+import pandas as pd
+
+# MySQL credentials
+username = 'root'
+password = 'root'
+host = 'localhost'       
+port = '3306'            # default MySQL port
+database = 'bnk'
+
+# Creating the SQLAlchemy engine
+engine = create_engine(f'mysql+pymysql://{username}:{password}@{host}:{port}/{database}')
+
+# Read CSV file
+df = pd.read_csv('C:/Aruna/Fortrary/DA Workshop/python/bnpl/cleaned_bnpl_data.csv')
+
+# To Import the data into MySQL table 'bnpl'
+df.to_sql('bnpl_customers', con=engine, if_exists='replace', index=False)
+
+print("Data imported successfully!")
